@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}Buy Flat{% endblock %}
+{% block content %}
+
+{% block css %}
+
+{% endblock css %}
+  
+<center>
+<br>
+<div class="shadow-lg p-4 mb-auto bg-body" 
+            style='
+                width: 600px;  
+                margin-top:20px; 
+                height:auto;
+                bottom:20px;
+                border-radius:2rem;
+                '>
+
+<br>
+<h1 style="font-weight:bold;">RENT FLAT</h1>
+<br>
+
+
+
+<div class="form-group" style="background:#ffd381; border-radius:2rem; padding:0.5rem;">
+    <form action="{% url 'user_login:rent_flat' %}" method="POST"> <!-- here we are specifying the method for the button we used below.-->
+    
+       {% csrf_token %} <!-- # its an encryption token.-->
+    
+                <div class="mt-3 container mt-4" >
+                    <p>
+                        <label for="id_email">Email</label> 
+                        <a style="width:50%; border-radius:2rem;"> <input type="email" name="email" maxlength="50" required id="id_email" style="width:90%; border-radius:2rem;" class='form-control' placeholder="Enter your email address"> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_username">Username</label> 
+                        <a style="width:50%; border-radius:2rem;"> <input type="text" name="username" maxlength="200" required id="id_username" style="width:90%; border-radius:2rem;" class='form-control' placeholder="Enter username"> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_first_name">First name</label>
+                        <a style="width:50%; border-radius:2rem;"> <input type="text" name="first_name" maxlength="100" required id="id_first_name" style="width:90%; border-radius:2rem;" class='form-control' placeholder="Enter FirstName"> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_last_name">Last name</label>
+                        <a style="width:50%; border-radius:2rem;"> <input type="text" name="last_name" maxlength="100" required id="id_last_name" style="width:90%; border-radius:2rem;" class='form-control' placeholder="Enter LastName"> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_mobile_no">Mobile no</label> 
+                        <a style="width:50%; border-radius:2rem;"> <input type="number" name="mobile_no" max="10000000000" required id="id_mobile_no" style="width:90%; border-radius:2rem;" class='form-control' placeholder="Enter Mobile Number"> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_flat_type">Flat type</label>
+                        <a style="width:50%; border-radius:2rem;"> <select name="flat_type" id="id_flat_type" style="width:90%; border-radius:2rem;" class="form-control">
+  <option value="1" selected>1BHK</option>
+
+  <option value="2">2BHK</option>
+
+  <option value="3">3BHK</option>
+
+</select> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_furnished">Furnished</label>
+                        <a style="width:50%; border-radius:2rem;"> <select  name="furnished" id="id_furnished" style="width:90%; border-radius:2rem;" class="form-control"  >
+  <option value="0" selected>Not Furnished</option>
+
+  <option value="1">FURNISHED</option>
+
+    </select> </a>
+            
+                    </p>
+                    
+                    <p>
+                        <label for="id_no_of_members">No of members</label> 
+                        <a style="width:50%; border-radius:2rem;"> <input type="number" name="no_of_members" value="1" required id="id_no_of_members" style="width:90%; border-radius:2rem;" class='form-control'> </a>
+                    </p>
+<br>
+<div style='text-align:left; margin-left:8%;'>
+
+                    {% comment %} <p> {% endcomment %}
+                        {% comment %} <small><label for="id_pool">Pool:</label> </small>  {% endcomment %}
+                        <a style="width:50%; border-radius:2rem;"> <input type="checkbox" name="pool" id="id_pool" >  POOL</a><br>
+            
+                    {% comment %} </p> {% endcomment %}
+                    
+                    {% comment %} <p> {% endcomment %}
+                        <a style="width:50%; border-radius:2rem;"> <input type="checkbox" name="gym" id="id_gym" >  GYM</a><br>
+            
+                    {% comment %} </p> {% endcomment %}
+                    
+                    {% comment %} <p> {% endcomment %}
+                        <a style="width:50%; border-radius:2rem;"> <input type="checkbox" name="creche" id="id_creche" >  CRECHE</a><br>
+            
+                    {% comment %} </p> {% endcomment %}
+                    
+                    {% comment %} <p> {% endcomment %}
+                        <a style="width:50%; border-radius:2rem;"> <input type="checkbox" name="cleaning_house" id="id_cleaning_house" > CLEANING HOUSE</a><br>
+</div>
+                    {% comment %} </p> {% endcomment %}
+
+                    {% comment %} {% for field in rent %}
+                    <p>
+                        <small>{{field.label_tag}} </small>
+                        <a style="width:50%; border-radius:2rem;"> {{field}} </a><br>
+            
+                    </p>
+                    {% endfor %} {% endcomment %}
+
+                    <br>
+                    <button class="btn btn-warning" style='border: 3px #000000 solid; border-radius:2rem; background:#fff'>Rent</button>
+                    <br><br>
+                    </div>
+</form>
+</div>
+</center>
+<br>
+<br>
+
+{% endblock %}
