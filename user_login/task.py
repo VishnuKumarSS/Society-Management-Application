@@ -6,6 +6,7 @@ from SC import settings
 
 @shared_task
 def send_otp_task(email, user_otp):
+    print('dfdfdfd', email, user_otp)
     mess = f"Hello {email}, \n Your OTP is {user_otp} \n Thank You"
     send_mail(
         "OTP to verify registration for society management application.",
@@ -16,12 +17,13 @@ def send_otp_task(email, user_otp):
     )
     print("email sent successfully.....!")
 
-@shared_task
-def add(x,y):
-    return x+y
-    
 
-# from SC.celery import app 
+@shared_task
+def add(x, y):
+    return x+y
+
+
+# from SC.celery import app
 # from .models import Account
 # from datetime import datetime
 # from django.core.mail import send_mail
@@ -39,7 +41,7 @@ def add(x,y):
 #             message = 'Still your account is not verified'
 #             email_from = settings.EMAIL_HOST_USER
 #             recipient = [acc.email]
-            
+
 #             send_mail(subject, message, email_from, recipient)
 #             print('sent the mail.....successfully')
 #     except Exception as e:

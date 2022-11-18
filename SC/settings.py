@@ -9,29 +9,32 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from django.conf.global_settings import EMAIL_USE_SSL
 import os
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+# Secret key
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.conf.global_settings import EMAIL_USE_SSL
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_!j)0os)5cv8(h8fieimg*-aurkxt=3w6j)x@t119p+s6)$sna'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "127.0.0.0"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "127.0.0.0", 'localhost']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,13 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'django_celery_beat',
     'django_celery_results',
-    
-    'user_login',
-    # 'channels',
 
+    'user_login',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'SC.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -93,39 +94,18 @@ WSGI_APPLICATION = 'SC.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'db_vishnu',
-#         'USER': 'vishnu',
-#         'PASSWORD': 'starz',
-#         'HOST': 'mydatabase',
-#         'PORT': '5432',
-#     }
-# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'society_database',
-        'USER': 'society_user',
-        'PASSWORD': 'society_password',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.environ.get('POSTGRES_DATABASE_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
-# DATABASES = {
-#     "default": {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': os.environ.get('DB_HOST'),
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         'PASSWORD': os.environ.get('DB_PASS'),
-#     }
-# }
 
-
-# admin : vishnu
-#password : starrrrr
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -152,9 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Kolkata'
-USE_L10N = True # I added this for asia/kolkata
-
-
+USE_L10N = True  # I added this for asia/kolkata
 
 
 USE_I18N = True
@@ -172,59 +150,34 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS= True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'starzcodetest1@gmail.com'
-# EMAIL_HOST_PASSWORD = 'ovbjinneabfxhkob'
-EMAIL_HOST_PASSWORD = 'ncckjektwdbufdbw'
-
-AUTH_USER_MODEL = 'user_login.Account' # here user_login is appname and Account is model.
+# here user_login is appname and Account is model.
+AUTH_USER_MODEL = 'user_login.Account'
 # it overrides the default behavior of the builtin user object.
 # and here we are telling django that we are authenticating the users with the custom one which we built.
 
-# redis ( celery )
-# This settings will be used by the celery.
 
-CELERY_BROKER_URL = ''
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json',]
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = "Asia/Kolkata"
-
-# CELERY_IMPORTS=["user_login.task",]
+# email config - SMTP (Simple Message Transfer Protocol)
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
-# to schedule the task from settings.py...use the code like below...
-# CELERY_BEAT_SCHEDULE = {
-#     'scheduled_task' : {
-#         'task' : 'user_login.task.add',
-#         'schedule': 5.0,
-#         'args': (4,5),
-#     },
-# }
+# celery
+CELERY_BROKER_URL = os.environ.get(
+    'CELERY_BROKER', "redis://127.0.0.1:6379")
+CELERY_RESULT_BACKEND = os.environ.get(
+    'CELERY_BROKER', "redis://127.0.0.1:6379")
+CELERY_ACCEPT_CONTENT = os.environ.get(
+    'CELERY_ACCEPT_CONTENT')
+CELERY_RESULT_SERIALIZER = os.environ.get(
+    'CELERY_RESULT_SERIALIZER')
+CELERY_TASK_SERIALIZER = os.environ.get(
+    'CELERY_TASK_SERIALIZER')
+CELERY_TIMEZONE = os.environ.get(
+    'CELERY_TIMEZONE')
 
-# CELERY_RESULT_BACKEND = 'django-db' 
-# the above is to see the results...here we have used inbuilt django database
-# the results will be stored in the task results in the admin panel...
-
-# below lines are used to store the results in the django cache database so that the application will be faster...than just saveing the results in the database...if there is large number of queries....
-# CELERY_CACHE_BACKEND = 'default'
-# CACHES = {
-#     'default':{
-#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
-#         'LOCATION':'cachedb',
-#     },
-# }
-
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', "redis://127.0.0.1:6379")
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER', "redis://127.0.0.1:6379")
 # CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', "redis://redis:6379/0")
 # CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER', "redis://redis:6379/0")
-
-
-# admin: vishnu
-# admin email : starzcodetest1@gmail.com
-# pw: starz1234

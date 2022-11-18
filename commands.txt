@@ -1,3 +1,6 @@
+superuser: starzcodetest2@gmail.com
+superuser password: starzzzz
+
 To install the Celery, Redis, Redis-server, RabbitMQ, RabbitMQ-server, flower, beat....
 
 NOTE::: Here core is project name...so use your own project name on the place of core.
