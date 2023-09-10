@@ -235,8 +235,8 @@ def registration_view(request):
             request.session['otp'] = user_otp
 
             print('Email and OTP: ', email, user_otp)
-            # send_otp_task(email, user_otp)
-            send_otp_task.delay(email, user_otp)
+            send_otp_task(email, user_otp)
+            # send_otp_task.delay(email, user_otp)
             # pdb.set_trace()
 
             # mess= f"Hello {user.email}, \n Your OTP is {user_otp} \n Thank You"
